@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ethers} from 'ethers';
-import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json';
+
 const abi =  [
     {
       "inputs": [
@@ -80,7 +80,7 @@ export class App extends React.Component {
 
             //signer needed for transaction that changes state
             const signer = provider.getSigner();
-            const contract = new ethers.Contract(GREETER_ADDRESS, Greeter.abi, signer);
+            const contract = new ethers.Contract(GREETER_ADDRESS, abi, signer);
 
             //preform transaction
             const transaction = await contract.setGreeting(newGreeting);
