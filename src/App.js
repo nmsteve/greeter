@@ -1,6 +1,45 @@
 import * as React from "react";
 import {ethers} from 'ethers';
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json';
+const abi =  [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_greeting",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "greets",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_greeting",
+          "type": "string"
+        }
+      ],
+      "name": "setGreeting",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
 
 
 const GREETER_ADDRESS = '0x2d4D8fEf2b781A7DedE3CdD487d93753B29b7415'
@@ -19,7 +58,7 @@ export class App extends React.Component {
       if (typeof window.ethereum !== "undefined") {
 
         const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const contract = new ethers.Contract(GREETER_ADDRESS, Greeter.abi, provider);
+        const contract = new ethers.Contract(GREETER_ADDRESS, abi, provider);
 
         //try to get the greeting in the contract
         try {
@@ -33,20 +72,21 @@ export class App extends React.Component {
   }
 
   async setGreeting(newGreeting) {
-      if (newGreeting && typeof window.ethereum !== "undefined") {
-          //ethereum is usable, get reference to the contract
-          await this.requestAccount();
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-          //signer needed for transaction that changes state
-          const signer = provider.getSigner();
-          const contract = new ethers.Contract(GREETER_ADDRESS, Greeter.abi, signer);
+    if (newGreeting && typeof window.ethereum !== "undefined") {
+            //ethereum is usable, get reference to the contract
+            await this.requestAccount();
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-          //preform transaction
-          const transaction = await contract.setGreeting(newGreeting);
-          await transaction.wait();
-          this.fetchGreeting();
-      }
+            //signer needed for transaction that changes state
+            const signer = provider.getSigner();
+            const contract = new ethers.Contract(GREETER_ADDRESS, Greeter.abi, signer);
+
+            //preform transaction
+            const transaction = await contract.setGreeting(newGreeting);
+            await transaction.wait();
+            this.fetchGreeting();
+     }
   }
 
   async requestAccount() {

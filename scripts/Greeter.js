@@ -19,8 +19,8 @@ async function main() {
 
   // We get the contract to deploy
   this.Greeter = await ethers.getContractFactory("Greeter");
-  //this.Greeter = await this.Greeter.deploy("Hello, Hardhat!");
-  //await this.Greeter.deployed();
+  // this.Greeter = await this.Greeter.deploy("Hello, Hardhat!");
+  // await this.Greeter.deployed();
 
   this.Greeter =  this.Greeter.attach(process.env.GREETER)
   //this.Greeter =  this.Greeter.connect(owner)
